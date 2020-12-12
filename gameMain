@@ -1,0 +1,86 @@
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QLayout, QGridLayout
+from PyQt5.QtWidgets import QTextEdit, QLineEdit, QToolButton
+
+import ladder
+import Input
+
+
+class LadderGame(QWidget):
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        # Ladder display window
+        self.LadderWindow = QTextEdit()
+        self.LadderWindow.setReadOnly(True)
+        self.LadderWindow.setAlignment(Qt.AlignLeft)
+        font = self.LadderWindow.font()
+        font.setFamily('Courier New')
+        self.LadderWindow.setFont(font)
+
+        # Layout
+        LadderLayout = QGridLayout()
+        LadderLayout.addWidget(self.LadderWindow, 0, 0)
+
+        # Status Layout creation
+        settingLayout = QGridLayout()
+
+        # Display widget
+        self.PersonNumber = QLineEdit()
+        self.PersonNumber.setText('참가자 수:')
+        self.PersonNumber.setReadOnly(True)
+        settingLayout.addWidget(self.PersonNumber, 0,0,1,30)
+
+        self.ResultNumber = QLineEdit()
+        self.ResultNumber.setText('결과 확인:')
+        settingLayout.addWidget(self.ResultNumber, 1, 0, 1, 30)
+
+
+        self.PersonName = QLineEdit()
+        self.PersonName.setText('이름 입력:')
+        settingLayout.addWidget(self.PersonName,2,0,1,30)
+
+        self.StartButton = QToolButton()
+        self.StartButton.setText('Start!')
+        self.StartButton.clicked.connect(self.StartClicked)
+        settingLayout.addWidget(self.StartButton, 3, 0)
+
+        self.ResetButton = QToolButton()
+        self.ResetButton.setText('Reset')
+        self.ResetButton.clicked.connect(self.ResetClicked)
+        settingLayout.addWidget(self.ResetButton, 3, 1)
+
+        # Layout Placement
+        mainLayout = QGridLayout()
+        mainLayout.setSizeConstraint(QLayout.SetFixedSize)
+        mainLayout.addLayout(LadderLayout, 0, 0)
+        mainLayout.addLayout(settingLayout, 0, 1)
+
+        self.setLayout(mainLayout)
+
+        self.setWindowTitle('Ladder Game')
+
+        # Start a Ladder Game on application launch!
+        self.StartClicked()
+
+    def ResetClicked(self):
+        # 상태 초기화
+        self.ladder = ladder()
+        self.input = Input()
+
+        self.LadderWindow.setText(self.ladder.drawcol, self.ladder.drawrow, self.ladder.followLine)
+        self.PersonNumber.setText(self.Input.PersonNumber())
+        self.ResultNumber.setText(self.Input.ResultNumber())
+        self.Result.setText(self.Input.PersonName())
+
+    def StartClicked(self):
+        pass
+
+if __name__ == '__main__':
+    import sys
+    app = QApplication(sys.argv)
+    game = LadderGame()
+    game.show()
+    sys.exit(app.exec_())
