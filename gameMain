@@ -1,11 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtWidgets import QLayout, QGridLayout
-from PyQt5.QtWidgets import QTextEdit, QLineEdit, QToolButton
-
-import ladder
-import Input
-
+from PyQt5.QtWidgets import QTextEdit, QLineEdit, QPushButton, QToolButton, QLabel, QSlider
 
 class LadderGame(QWidget):
 
@@ -28,30 +24,65 @@ class LadderGame(QWidget):
         settingLayout = QGridLayout()
 
         # Display widget
-        self.PersonNumber = QLineEdit()
-        self.PersonNumber.setText('참가자 수:')
-        self.PersonNumber.setReadOnly(True)
-        settingLayout.addWidget(self.PersonNumber, 0,0,1,30)
+        #Qslider Widget
+        self.slider = QSlider(Qt.Horizontal, self)
+        self.slider.setRange(0,10)
+        self.slider.setSingleStep(1)
+        self.label = QLabel('0',self)
+        self.slider.valueChanged[int].connect(self.chagne_Value)
+        settingLayout.addWidget(self.slider, 0,0,1,3)
+        # QLabel, QLineEdit
+        input = QLabel('입력창',self)
+        settingLayout.addWidget(input,1,0)
+        Num1 = QLineEdit('1:',self)
+        settingLayout.addWidget(Num1,2,0)
+        Num2 = QLineEdit('2:',self)
+        settingLayout.addWidget(Num2, 3, 0)
+        Num3 = QLineEdit('3:',self)
+        settingLayout.addWidget(Num3, 4, 0)
+        Num4 = QLineEdit('4:',self)
+        settingLayout.addWidget(Num4, 5, 0)
+        Num5 = QLineEdit('5:',self)
+        settingLayout.addWidget(Num5, 6, 0)
+        Num6 = QLineEdit('6:',self)
+        settingLayout.addWidget(Num6, 7, 0)
+        Num7 = QLineEdit('7:',self)
+        settingLayout.addWidget(Num7, 8, 0)
+        Num8 = QLineEdit('8:',self)
+        settingLayout.addWidget(Num8, 9, 0)
+        Num9 = QLineEdit('9:',self)
+        settingLayout.addWidget(Num9, 10, 0)
+        Num10 = QLineEdit('10:',self)
+        settingLayout.addWidget(Num10, 11, 0)
 
-        self.ResultNumber = QLineEdit()
-        self.ResultNumber.setText('결과 확인:')
-        settingLayout.addWidget(self.ResultNumber, 1, 0, 1, 30)
+        result = QLabel('결과값', self)
+        settingLayout.addWidget(result,1,1)
+        P1 = QLineEdit(self)
+        settingLayout.addWidget(P1, 2,1)
+        P2 = QLineEdit(self)
+        settingLayout.addWidget(P2, 3, 1)
+        P3 = QLineEdit(self)
+        settingLayout.addWidget(P3, 4, 1)
+        P4 = QLineEdit(self)
+        settingLayout.addWidget(P4, 5, 1)
+        P5 = QLineEdit(self)
+        settingLayout.addWidget(P5, 6, 1)
+        P6 = QLineEdit(self)
+        settingLayout.addWidget(P6, 7, 1)
+        P7 = QLineEdit(self)
+        settingLayout.addWidget(P7, 8, 1)
+        P8 = QLineEdit(self)
+        settingLayout.addWidget(P8, 9, 1)
+        P9 = QLineEdit(self)
+        settingLayout.addWidget(P9, 10, 1)
+        P10 = QLineEdit(self)
+        settingLayout.addWidget(P10, 11, 1)
 
-
-        self.PersonName = QLineEdit()
-        self.PersonName.setText('이름 입력:')
-        settingLayout.addWidget(self.PersonName,2,0,1,30)
-
-        self.StartButton = QToolButton()
-        self.StartButton.setText('Start!')
-        self.StartButton.clicked.connect(self.StartClicked)
-        settingLayout.addWidget(self.StartButton, 3, 0)
-
-        self.ResetButton = QToolButton()
-        self.ResetButton.setText('Reset')
-        self.ResetButton.clicked.connect(self.ResetClicked)
-        settingLayout.addWidget(self.ResetButton, 3, 1)
-
+        #Create Button
+        self.runButton = QToolButton()
+        self.runButton.setText('Run')
+        self.runButton.clicked.connect(self.startRun)
+        settingLayout.addWidget(self.runButton, 12,0)
         # Layout Placement
         mainLayout = QGridLayout()
         mainLayout.setSizeConstraint(QLayout.SetFixedSize)
@@ -59,11 +90,7 @@ class LadderGame(QWidget):
         mainLayout.addLayout(settingLayout, 0, 1)
 
         self.setLayout(mainLayout)
-
         self.setWindowTitle('Ladder Game')
-
-        # Start a Ladder Game on application launch!
-        self.StartClicked()
 
     def ResetClicked(self):
         # 상태 초기화
@@ -75,8 +102,14 @@ class LadderGame(QWidget):
         self.ResultNumber.setText(self.Input.ResultNumber())
         self.Result.setText(self.Input.PersonName())
 
-    def StartClicked(self):
+    def startRun(self):
         pass
+
+    def chagne_Value(self, value):
+        self.label.setText(str(value))
+        self.label.adjustSize()
+        self.label.repaint()
+
 
 if __name__ == '__main__':
     import sys
