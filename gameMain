@@ -83,6 +83,11 @@ class LadderGame(QWidget):
         self.runButton.setText('Run')
         self.runButton.clicked.connect(self.startRun)
         settingLayout.addWidget(self.runButton, 12,0)
+
+        self.resetButton = QToolButton()
+        self.resetButton.setText('Reset')
+        self.resetButton.clicked.connect(self.resetClicked)
+        settingLayout.addWidget(self.resetButton, 12, 1)
         # Layout Placement
         mainLayout = QGridLayout()
         mainLayout.setSizeConstraint(QLayout.SetFixedSize)
@@ -92,15 +97,8 @@ class LadderGame(QWidget):
         self.setLayout(mainLayout)
         self.setWindowTitle('Ladder Game')
 
-    def ResetClicked(self):
-        # 상태 초기화
-        self.ladder = ladder()
-        self.input = Input()
-
-        self.LadderWindow.setText(self.ladder.drawcol, self.ladder.drawrow, self.ladder.followLine)
-        self.PersonNumber.setText(self.Input.PersonNumber())
-        self.ResultNumber.setText(self.Input.ResultNumber())
-        self.Result.setText(self.Input.PersonName())
+    def resetClicked(self):
+        pass
 
     def startRun(self):
         pass
